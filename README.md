@@ -6,7 +6,7 @@
 ### Activate Environment
 `conda activate biostatistics`
 
-# Install bentdna package
+# Install biostat package
 `pip install -e .`
 
 # Upgrade package

@@ -2,6 +2,9 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+
+    def __repr__(self):
+        return f'(X:{self.x:.3f}, Y:{self.y:.3f})'
     
 class Tree:
     def __init__(self, level_begin, level_end):
@@ -45,8 +48,45 @@ class Tree:
         return xlist, ylist
 
 class TreeModify:
-    def __init__(self, x_start, x_end):
-        pass
+    def __init__(self):
+        self.result = None
+
+    def create_container(self, level_list):
+        d_result = dict()
+        for i in level_list:
+            d_result[i] = list()
+        self.result = d_result
+        print("Set result container.")
+
+    def make_data_by_npoints(self, n_point, level):
+        for y in range(n_point):
+            p = Point(level, y)
+            self.result[level].append(p)
+
+    def make_data_by_ylist(self, ylist, level):
+        for y in ylist:
+            p = Point(level, y)
+            self.result[level].append(p)
+
+    def make_data_by_prev_level(self, level):
+        data_prev = self.result[level+1]
+        n_point = int(len(data_prev) / 2)
+        for idx in range(n_point):
+            y_down = data_prev[idx * 2].y
+            y_up = data_prev[idx*2+1].y
+            p = Point(level, (y_down+y_up)/2)
+            self.result[level].append(p)
+
+    def get_xlist_ylist_for_level(self, level):
+        data = self.result[level]
+        xlist = list()
+        ylist = list()
+        for p in data:
+            xlist.append(p.x)
+            ylist.append(p.y)
+        return xlist, ylist
+
+    
     
 def scatter_xy(ax, xlist, ylist):
     ax.scatter(xlist, ylist, s=20, color='black')
